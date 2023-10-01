@@ -1,0 +1,42 @@
+[gd_scene load_steps=6 format=3 uid="uid://6n7h3pa6813h"]
+
+[ext_resource type="Script" path="res://assets/player/player.gd" id="1_fat64"]
+[ext_resource type="PackedScene" uid="uid://lmg4xymt4ygg" path="res://assets/player/player.gltf" id="2_avfu1"]
+[ext_resource type="AudioStream" uid="uid://nlvk244p6p0r" path="res://assets/sounds/coin.wav" id="3_iuryc"]
+[ext_resource type="AudioStream" uid="uid://cvqwg8syfdps8" path="res://assets/sounds/run.wav" id="5_a3nd7"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ssjov"]
+size = Vector3(0.6, 0.805, 0.6)
+
+[node name="Player" type="CharacterBody3D" groups=["player"]]
+script = ExtResource("1_fat64")
+
+[node name="Collision" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.399691, 0)
+shape = SubResource("BoxShape3D_ssjov")
+
+[node name="Camera" type="Camera3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 8, 0, 0)
+top_level = true
+v_offset = 2.0
+current = true
+fov = 90.0
+
+[node name="player" parent="." instance=ExtResource("2_avfu1")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
+
+[node name="sfx" type="Node" parent="."]
+
+[node name="coin" type="AudioStreamPlayer" parent="sfx"]
+stream = ExtResource("3_iuryc")
+volume_db = -11.277
+max_polyphony = 5
+
+[node name="run" type="AudioStreamPlayer" parent="sfx"]
+stream = ExtResource("5_a3nd7")
+volume_db = -5.012
+
+[connection signal="picked" from="." to="." method="_on_picked"]
+
+[editable path="player"]

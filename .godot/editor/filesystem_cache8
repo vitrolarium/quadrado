@@ -1,0 +1,32 @@
+ea4bc82a6ad023ab7ee23ee620429895
+::res://::1696177805
+Coin.gd::GDScript::-1::1696175956::0::1::::<>Area3D<>::
+death_area.tscn::PackedScene::742949335005338220::1696174542::0::1::::<><>::
+default_theme.tres::Theme::5626092644016306719::1696174515::0::1::::<><>::uid://ct3wsihjoir4p::::res://Retro Gaming.ttf
+icon.svg::CompressedTexture2D::4710644993835749544::1696167291::1696167299::1::::<><>::
+Retro Gaming.ttf::FontFile::6165600323182036141::1550872830::1696174374::1::::<><>::
+Square.ttf::FontFile::5491935211439455522::1312209222::1696174374::1::::<><>::
+test_map.gd::GDScript::-1::1696176457::0::1::::<>Node3D<>::
+test_map.tscn::PackedScene::6832614381076253851::1696177805::0::1::::<><>::uid://6n7h3pa6813h::::res://assets/player/player.tscn<>res://test_map.gd<>uid://yupjhnivhara::::res://assets/tiles/grass.gltf<>uid://cmfk6n8top2q2::::res://default_theme.tres<>uid://kt5jcwhoo6ng::::res://death_area.tscn<>uid://drr0e6xtkl5ve::::res://assets/coin/coin.tscn
+::res://assets/::1696176927
+::res://assets/coin/::1696177805
+coin.gltf::PackedScene::559613636114733302::1696176114::1696176116::1::::<><>::uid://b1jra2kpr07kl::::res://assets/coin/coin_0.png
+coin.tscn::PackedScene::8389093547371111262::1696177805::0::1::::<><>::res://Coin.gd<>uid://h8c0wtxp85da::::res://assets/coin/coin.gltf
+coin_0.png::CompressedTexture2D::4230943641229277975::1696174750::1696174765::1::::<><>::
+::res://assets/player/::1696177805
+player.gd::GDScript::-1::1696177805::0::1::::<>CharacterBody3D<>::
+player.gltf::PackedScene::797267148731056842::1696173083::1696173086::1::::<><>::uid://f88b7v07yntn
+player.tscn::PackedScene::2204648001776266847::1696177805::0::1::::<><>::res://assets/player/player.gd<>uid://lmg4xymt4ygg::::res://assets/player/player.gltf<>uid://nlvk244p6p0r::::res://assets/sounds/coin.wav<>uid://be7womlwffl4x::::res://assets/sounds/landing.wav<>uid://cvqwg8syfdps8::::res://assets/sounds/run.wav<>uid://dqqsuu6eu3r10::::res://assets/sounds/win.wav
+player_0.png::CompressedTexture2D::421075844997037415::1696172516::1696172584::1::::<><>::
+skin.png::CompressedTexture2D::3348973142657777656::1696172106::1696172516::1::::<><>::
+::res://assets/sounds/::1696177232
+coin.wav::AudioStreamWAV::936457501644914151::1695979633::1696176969::1::::<><>::
+landing.wav::AudioStreamWAV::2734597569610195733::1692523163::1696177827::1::::<><>::
+run.wav::AudioStreamWAV::6281185378628432169::1676903777::1696177232::1::::<><>::
+win.wav::AudioStreamWAV::8316443313666201265::1695940944::1696177074::1::::<><>::
+::res://assets/tiles/::1696170913
+grass2.glb::PackedScene::8717630690525370860::1696170133::1696170803::1::::<><>::
+grass2_0.png::CompressedTexture2D::8316225610457565816::1696170134::1696170147::1::::<><>::
+grass.gltf::PackedScene::1726747017568344330::1696169658::1696170813::1::::<><>::
+grass.png::CompressedTexture2D::8558173523366800936::1696169489::1696169622::1::::<><>::
+grass_0.png::CompressedTexture2D::2488038330204581074::1696169659::1696169666::1::::<><>::

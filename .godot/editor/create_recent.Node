@@ -1,0 +1,13 @@
+Label
+AudioStreamPlayer
+Node
+CollisionShape3D
+Area3D
+Control
+Marker3D
+StaticBody3D
+MeshInstance3D
+GridMap
+Camera3D
+CharacterBody3D
+CharacterBody2D

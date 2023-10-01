@@ -1,0 +1,10 @@
+[gd_resource type="Theme" load_steps=2 format=3 uid="uid://cmfk6n8top2q2"]
+
+[ext_resource type="FontFile" uid="uid://ct3wsihjoir4p" path="res://Retro Gaming.ttf" id="1_owe3v"]
+
+[resource]
+Title/base_type = &"Label"
+Title/colors/font_outline_color = Color(0, 0, 0, 1)
+Title/constants/outline_size = 5
+Title/font_sizes/font_size = 52
+Title/fonts/font = ExtResource("1_owe3v")

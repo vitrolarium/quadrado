@@ -1,0 +1,10 @@
+res://test_map.tscn
+res://player.tscn
+res://death_area.tscn
+res://test_map.gd
+res://player.gd
+res://default_theme.tres
+res://Coin.gd
+res://assets/coin/coin.tscn
+res://assets/player/player.gd
+res://assets/player/player.tscn

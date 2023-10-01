@@ -1,0 +1,813 @@
+[gd_scene load_steps=12 format=3 uid="uid://c4l1fpwgb3dkl"]
+
+[ext_resource type="PackedScene" uid="uid://6n7h3pa6813h" path="res://assets/player/player.tscn" id="1_bwrtn"]
+[ext_resource type="Script" path="res://test_map.gd" id="1_tth1h"]
+[ext_resource type="PackedScene" uid="uid://yupjhnivhara" path="res://assets/tiles/grass.gltf" id="2_bye5x"]
+[ext_resource type="Theme" uid="uid://cmfk6n8top2q2" path="res://default_theme.tres" id="2_sef6m"]
+[ext_resource type="PackedScene" uid="uid://kt5jcwhoo6ng" path="res://death_area.tscn" id="4_7aetd"]
+[ext_resource type="PackedScene" uid="uid://drr0e6xtkl5ve" path="res://assets/coin/coin.tscn" id="6_56yq2"]
+[ext_resource type="AudioStream" uid="uid://dqqsuu6eu3r10" path="res://assets/sounds/win.wav" id="6_a00dm"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_d0lfw"]
+sky_horizon_color = Color(0.735466, 0.768402, 0.8875, 1)
+ground_bottom_color = Color(0.556863, 0.619608, 1, 1)
+ground_horizon_color = Color(0.735466, 0.768402, 0.8875, 1)
+
+[sub_resource type="Sky" id="Sky_lfbgu"]
+sky_material = SubResource("ProceduralSkyMaterial_d0lfw")
+
+[sub_resource type="Environment" id="Environment_gcfkn"]
+background_mode = 2
+sky = SubResource("Sky_lfbgu")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_q6ii4"]
+size = Vector3(1, 0.27, 1)
+
+[node name="TestMap" type="Node3D"]
+script = ExtResource("1_tth1h")
+
+[node name="hud" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_sef6m")
+
+[node name="Score" type="Label" parent="hud"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+theme_type_variation = &"Title"
+text = "Coins: 0"
+
+[node name="win" type="Label" parent="hud"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_type_variation = &"Title"
+text = "a winner is you"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label" type="Label" parent="hud"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -571.0
+offset_bottom = 70.0
+grow_horizontal = 0
+theme_type_variation = &"Title"
+text = "0.0"
+horizontal_alignment = 2
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_gcfkn")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 0, 0)
+light_color = Color(1, 0.85098, 0.721569, 1)
+shadow_enabled = true
+
+[node name="spawnpoint" type="Marker3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.62472, 10.034)
+
+[node name="DeathArea" parent="." instance=ExtResource("4_7aetd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -46.5986, 0)
+
+[node name="Player" parent="." instance=ExtResource("1_bwrtn")]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="Enviroment" type="Node" parent="."]
+
+[node name="grass2" type="StaticBody3D" parent="Enviroment"]
+metadata/_edit_group_ = true
+
+[node name="grass" parent="Enviroment/grass2" instance=ExtResource("2_bye5x")]
+skeleton = NodePath("../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Enviroment/grass2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.123157, 0)
+shape = SubResource("BoxShape3D_q6ii4")
+
+[node name="grass3" type="StaticBody3D" parent="Enviroment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1)
+metadata/_edit_group_ = true
+
+[node name="grass" parent="Enviroment/grass3" instance=ExtResource("2_bye5x")]
+skeleton = NodePath("../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Enviroment/grass3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.123157, 0)
+shape = SubResource("BoxShape3D_q6ii4")
+
+[node name="grass4" type="StaticBody3D" parent="Enviroment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2)
+metadata/_edit_group_ = true
+
+[node name="grass" parent="Enviroment/grass4" instance=ExtResource("2_bye5x")]
+skeleton = NodePath("../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Enviroment/grass4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.123157, 0)
+shape = SubResource("BoxShape3D_q6ii4")
+
+[node name="grass5" type="StaticBody3D" parent="Enviroment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3)
+metadata/_edit_group_ = true
+
+[node name="grass" parent="Enviroment/grass5" instance=ExtResource("2_bye5x")]
+skeleton = NodePath("../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Enviroment/grass5"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.123157, 0)
+shape = SubResource("BoxShape3D_q6ii4")
+
+[node name="grass6" type="StaticBody3D" parent="Enviroment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -4)
+metadata/_edit_group_ = true
+
+[node name="grass" parent="Enviroment/grass6" instance=ExtResource("2_bye5x")]
+skeleton = NodePath("../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Enviroment/grass6"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.123157, 0)
+shape = SubResource("BoxShape3D_q6ii4")
+
+[node name="grass7" type="StaticBody3D" parent="Enviroment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -3)
+metadata/_edit_group_ = true
+
+[node name="grass" parent="Enviroment/grass7" instance=ExtResource("2_bye5x")]
+skeleton = NodePath("../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Enviroment/grass7"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.123157, 0)
+shape = SubResource("BoxShape3D_q6ii4")
+
+[node name="grass8" type="StaticBody3D" parent="Enviroment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2)
+metadata/_edit_group_ = true
+
+[node name="grass" parent="Enviroment/grass8" instance=ExtResource("2_bye5x")]
+skeleton = NodePath("../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Enviroment/grass8"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.123157, 0)
+shape = SubResource("BoxShape3D_q6ii4")
+
+[node name="grass9" type="StaticBody3D" parent="Enviroment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1)
+metadata/_edit_group_ = true
+
+[node name="grass" parent="Enviroment/grass9" instance=ExtResource("2_bye5x")]
+skeleton = NodePath("../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Enviroment/grass9"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.123157, 0)
+shape = SubResource("BoxShape3D_q6ii4")
+
+[node name="grass10" type="StaticBody3D" parent="Enviroment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 8)
+metadata/_edit_group_ = true
+
+[node name="grass" parent="Enviroment/grass10" instance=ExtResource("2_bye5x")]
+skeleton = NodePath("../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Enviroment/grass10"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.123157, 0)
+shape = SubResource("BoxShape3D_q6ii4")
+
+[node name="grass11" type="StaticBody3D" parent="Enviroment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 9)
+metadata/_edit_group_ = true
+
+[node name="grass" parent="Enviroment/grass11" instance=ExtResource("2_bye5x")]
+skeleton = NodePath("../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Enviroment/grass11"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.123157, 0)
+shape = SubResource("BoxShape3D_q6ii4")
+
+[node name="grass12" type="StaticBody3D" parent="Enviroment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 10)
+metadata/_edit_group_ = true
+
+[node name="grass" parent="Enviroment/grass12" instance=ExtResource("2_bye5x")]
+skeleton = NodePath("../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Enviroment/grass12"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.123157, 0)
+shape = SubResource("BoxShape3D_q6ii4")
+
+[node name="grass13" type="StaticBody3D" parent="Enviroment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 11)
+metadata/_edit_group_ = true
+
+[node name="grass" parent="Enviroment/grass13" instance=ExtResource("2_bye5x")]
+skeleton = NodePath("../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Enviroment/grass13"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.123157, 0)
+shape = SubResource("BoxShape3D_q6ii4")
+
+[node name="grass14" type="StaticBody3D" parent="Enviroment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 4)
+metadata/_edit_group_ = true
+
+[node name="grass" parent="Enviroment/grass14" instance=ExtResource("2_bye5x")]
+skeleton = NodePath("../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Enviroment/grass14"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.123157, 0)
+shape = SubResource("BoxShape3D_q6ii4")
+
+[node name="grass15" type="StaticBody3D" parent="Enviroment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 5)
+metadata/_edit_group_ = true
+
+[node name="grass" parent="Enviroment/grass15" instance=ExtResource("2_bye5x")]
+skeleton = NodePath("../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Enviroment/grass15"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.123157, 0)
+shape = SubResource("BoxShape3D_q6ii4")
+
+[node name="grass16" type="StaticBody3D" parent="Enviroment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 6)
+metadata/_edit_group_ = true
+
+[node name="grass" parent="Enviroment/grass16" instance=ExtResource("2_bye5x")]
+skeleton = NodePath("../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Enviroment/grass16"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.123157, 0)
+shape = SubResource("BoxShape3D_q6ii4")
+
+[node name="grass17" type="StaticBody3D" parent="Enviroment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 7)
+metadata/_edit_group_ = true
+
+[node name="grass" parent="Enviroment/grass17" instance=ExtResource("2_bye5x")]
+skeleton = NodePath("../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Enviroment/grass17"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.123157, 0)
+shape = SubResource("BoxShape3D_q6ii4")
+
+[node name="grass18" type="StaticBody3D" parent="Enviroment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.16052, -16)
+metadata/_edit_group_ = true
+
+[node name="grass" parent="Enviroment/grass18" instance=ExtResource("2_bye5x")]
+skeleton = NodePath("../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Enviroment/grass18"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.123157, 0)
+shape = SubResource("BoxShape3D_q6ii4")
+
+[node name="grass19" type="StaticBody3D" parent="Enviroment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -13.9916, -15)
+metadata/_edit_group_ = true
+
+[node name="grass" parent="Enviroment/grass19" instance=ExtResource("2_bye5x")]
+skeleton = NodePath("../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Enviroment/grass19"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.123157, 0)
+shape = SubResource("BoxShape3D_q6ii4")
+
+[node name="grass20" type="StaticBody3D" parent="Enviroment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.20116, -14)
+metadata/_edit_group_ = true
+
+[node name="grass" parent="Enviroment/grass20" instance=ExtResource("2_bye5x")]
+skeleton = NodePath("../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Enviroment/grass20"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.123157, 0)
+shape = SubResource("BoxShape3D_q6ii4")
+
+[node name="grass21" type="StaticBody3D" parent="Enviroment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -14.245, -13)
+metadata/_edit_group_ = true
+
+[node name="grass" parent="Enviroment/grass21" instance=ExtResource("2_bye5x")]
+skeleton = NodePath("../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Enviroment/grass21"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.123157, 0)
+shape = SubResource("BoxShape3D_q6ii4")
+
+[node name="grass22" type="StaticBody3D" parent="Enviroment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.11186, -21.8325)
+metadata/_edit_group_ = true
+
+[node name="grass" parent="Enviroment/grass22" instance=ExtResource("2_bye5x")]
+skeleton = NodePath("../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Enviroment/grass22"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.123157, 0)
+shape = SubResource("BoxShape3D_q6ii4")
+
+[node name="grass23" type="StaticBody3D" parent="Enviroment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -5.49808, -19)
+metadata/_edit_group_ = true
+
+[node name="grass" parent="Enviroment/grass23" instance=ExtResource("2_bye5x")]
+skeleton = NodePath("../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Enviroment/grass23"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.123157, 0)
+shape = SubResource("BoxShape3D_q6ii4")
+
+[node name="grass24" type="StaticBody3D" parent="Enviroment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.80278, -18)
+metadata/_edit_group_ = true
+
+[node name="grass" parent="Enviroment/grass24" instance=ExtResource("2_bye5x")]
+skeleton = NodePath("../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Enviroment/grass24"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.123157, 0)
+shape = SubResource("BoxShape3D_q6ii4")
+
+[node name="grass25" type="StaticBody3D" parent="Enviroment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -9.70608, -17)
+metadata/_edit_group_ = true
+
+[node name="grass" parent="Enviroment/grass25" instance=ExtResource("2_bye5x")]
+skeleton = NodePath("../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Enviroment/grass25"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.123157, 0)
+shape = SubResource("BoxShape3D_q6ii4")
+
+[node name="grass26" type="StaticBody3D" parent="Enviroment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -8)
+metadata/_edit_group_ = true
+
+[node name="grass" parent="Enviroment/grass26" instance=ExtResource("2_bye5x")]
+skeleton = NodePath("../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Enviroment/grass26"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.123157, 0)
+shape = SubResource("BoxShape3D_q6ii4")
+
+[node name="grass27" type="StaticBody3D" parent="Enviroment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -7)
+metadata/_edit_group_ = true
+
+[node name="grass" parent="Enviroment/grass27" instance=ExtResource("2_bye5x")]
+skeleton = NodePath("../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Enviroment/grass27"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.123157, 0)
+shape = SubResource("BoxShape3D_q6ii4")
+
+[node name="grass28" type="StaticBody3D" parent="Enviroment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -6)
+metadata/_edit_group_ = true
+
+[node name="grass" parent="Enviroment/grass28" instance=ExtResource("2_bye5x")]
+skeleton = NodePath("../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Enviroment/grass28"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.123157, 0)
+shape = SubResource("BoxShape3D_q6ii4")
+
+[node name="grass29" type="StaticBody3D" parent="Enviroment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -5)
+metadata/_edit_group_ = true
+
+[node name="grass" parent="Enviroment/grass29" instance=ExtResource("2_bye5x")]
+skeleton = NodePath("../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Enviroment/grass29"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.123157, 0)
+shape = SubResource("BoxShape3D_q6ii4")
+
+[node name="grass30" type="StaticBody3D" parent="Enviroment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.906384, -12)
+metadata/_edit_group_ = true
+
+[node name="grass" parent="Enviroment/grass30" instance=ExtResource("2_bye5x")]
+skeleton = NodePath("../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Enviroment/grass30"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.123157, 0)
+shape = SubResource("BoxShape3D_q6ii4")
+
+[node name="grass31" type="StaticBody3D" parent="Enviroment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -11)
+metadata/_edit_group_ = true
+
+[node name="grass" parent="Enviroment/grass31" instance=ExtResource("2_bye5x")]
+skeleton = NodePath("../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Enviroment/grass31"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.123157, 0)
+shape = SubResource("BoxShape3D_q6ii4")
+
+[node name="grass32" type="StaticBody3D" parent="Enviroment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -10)
+metadata/_edit_group_ = true
+
+[node name="grass" parent="Enviroment/grass32" instance=ExtResource("2_bye5x")]
+skeleton = NodePath("../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Enviroment/grass32"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.123157, 0)
+shape = SubResource("BoxShape3D_q6ii4")
+
+[node name="grass33" type="StaticBody3D" parent="Enviroment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -9)
+metadata/_edit_group_ = true
+
+[node name="grass" parent="Enviroment/grass33" instance=ExtResource("2_bye5x")]
+skeleton = NodePath("../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Enviroment/grass33"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.123157, 0)
+shape = SubResource("BoxShape3D_q6ii4")
+
+[node name="grass34" type="StaticBody3D" parent="Enviroment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -15.5408, -8)
+metadata/_edit_group_ = true
+
+[node name="grass" parent="Enviroment/grass34" instance=ExtResource("2_bye5x")]
+skeleton = NodePath("../../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Enviroment/grass34"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.123157, 0)
+shape = SubResource("BoxShape3D_q6ii4")
+
+[node name="grass35" type="StaticBody3D" parent="Enviroment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -15.5408, -7)
+metadata/_edit_group_ = true
+
+[node name="grass" parent="Enviroment/grass35" instance=ExtResource("2_bye5x")]
+skeleton = NodePath("../../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Enviroment/grass35"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.123157, 0)
+shape = SubResource("BoxShape3D_q6ii4")
+
+[node name="grass36" type="StaticBody3D" parent="Enviroment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -15.5408, -11)
+metadata/_edit_group_ = true
+
+[node name="grass" parent="Enviroment/grass36" instance=ExtResource("2_bye5x")]
+skeleton = NodePath("../../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Enviroment/grass36"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.123157, 0)
+shape = SubResource("BoxShape3D_q6ii4")
+
+[node name="grass37" type="StaticBody3D" parent="Enviroment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -15.5408, -10)
+metadata/_edit_group_ = true
+
+[node name="grass" parent="Enviroment/grass37" instance=ExtResource("2_bye5x")]
+skeleton = NodePath("../../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Enviroment/grass37"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.123157, 0)
+shape = SubResource("BoxShape3D_q6ii4")
+
+[node name="grass38" type="StaticBody3D" parent="Enviroment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -15.5408, -9)
+metadata/_edit_group_ = true
+
+[node name="grass" parent="Enviroment/grass38" instance=ExtResource("2_bye5x")]
+skeleton = NodePath("../../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Enviroment/grass38"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.123157, 0)
+shape = SubResource("BoxShape3D_q6ii4")
+
+[node name="grass39" type="StaticBody3D" parent="Enviroment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -17.1112, -2.21985)
+metadata/_edit_group_ = true
+
+[node name="grass" parent="Enviroment/grass39" instance=ExtResource("2_bye5x")]
+skeleton = NodePath("../../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Enviroment/grass39"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.123157, 0)
+shape = SubResource("BoxShape3D_q6ii4")
+
+[node name="grass40" type="StaticBody3D" parent="Enviroment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -17.1112, -1.21985)
+metadata/_edit_group_ = true
+
+[node name="grass" parent="Enviroment/grass40" instance=ExtResource("2_bye5x")]
+skeleton = NodePath("../../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Enviroment/grass40"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.123157, 0)
+shape = SubResource("BoxShape3D_q6ii4")
+
+[node name="grass41" type="StaticBody3D" parent="Enviroment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -17.1112, -5.21985)
+metadata/_edit_group_ = true
+
+[node name="grass" parent="Enviroment/grass41" instance=ExtResource("2_bye5x")]
+skeleton = NodePath("../../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Enviroment/grass41"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.123157, 0)
+shape = SubResource("BoxShape3D_q6ii4")
+
+[node name="grass42" type="StaticBody3D" parent="Enviroment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -17.1112, -4.21985)
+metadata/_edit_group_ = true
+
+[node name="grass" parent="Enviroment/grass42" instance=ExtResource("2_bye5x")]
+skeleton = NodePath("../../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Enviroment/grass42"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.123157, 0)
+shape = SubResource("BoxShape3D_q6ii4")
+
+[node name="grass43" type="StaticBody3D" parent="Enviroment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -17.1112, -3.21985)
+metadata/_edit_group_ = true
+
+[node name="grass" parent="Enviroment/grass43" instance=ExtResource("2_bye5x")]
+skeleton = NodePath("../../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Enviroment/grass43"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.123157, 0)
+shape = SubResource("BoxShape3D_q6ii4")
+
+[node name="grass44" type="StaticBody3D" parent="Enviroment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -19.8633, 8.81171)
+metadata/_edit_group_ = true
+
+[node name="grass" parent="Enviroment/grass44" instance=ExtResource("2_bye5x")]
+skeleton = NodePath("../../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Enviroment/grass44"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.123157, 0)
+shape = SubResource("BoxShape3D_q6ii4")
+
+[node name="grass45" type="StaticBody3D" parent="Enviroment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -19.8633, 9.81171)
+metadata/_edit_group_ = true
+
+[node name="grass" parent="Enviroment/grass45" instance=ExtResource("2_bye5x")]
+skeleton = NodePath("../../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Enviroment/grass45"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.123157, 0)
+shape = SubResource("BoxShape3D_q6ii4")
+
+[node name="grass46" type="StaticBody3D" parent="Enviroment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -19.8633, 5.81171)
+metadata/_edit_group_ = true
+
+[node name="grass" parent="Enviroment/grass46" instance=ExtResource("2_bye5x")]
+skeleton = NodePath("../../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Enviroment/grass46"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.123157, 0)
+shape = SubResource("BoxShape3D_q6ii4")
+
+[node name="grass47" type="StaticBody3D" parent="Enviroment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -19.8633, 6.81171)
+metadata/_edit_group_ = true
+
+[node name="grass" parent="Enviroment/grass47" instance=ExtResource("2_bye5x")]
+skeleton = NodePath("../../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Enviroment/grass47"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.123157, 0)
+shape = SubResource("BoxShape3D_q6ii4")
+
+[node name="grass48" type="StaticBody3D" parent="Enviroment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -19.8633, 7.81171)
+metadata/_edit_group_ = true
+
+[node name="grass" parent="Enviroment/grass48" instance=ExtResource("2_bye5x")]
+skeleton = NodePath("../../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Enviroment/grass48"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.123157, 0)
+shape = SubResource("BoxShape3D_q6ii4")
+
+[node name="grass49" type="StaticBody3D" parent="Enviroment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -22.7254, 20.6221)
+metadata/_edit_group_ = true
+
+[node name="grass" parent="Enviroment/grass49" instance=ExtResource("2_bye5x")]
+skeleton = NodePath("../../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Enviroment/grass49"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.123157, 0)
+shape = SubResource("BoxShape3D_q6ii4")
+
+[node name="grass50" type="StaticBody3D" parent="Enviroment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -22.7254, 21.6221)
+metadata/_edit_group_ = true
+
+[node name="grass" parent="Enviroment/grass50" instance=ExtResource("2_bye5x")]
+skeleton = NodePath("../../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Enviroment/grass50"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.123157, 0)
+shape = SubResource("BoxShape3D_q6ii4")
+
+[node name="grass51" type="StaticBody3D" parent="Enviroment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -22.7254, 17.6221)
+metadata/_edit_group_ = true
+
+[node name="grass" parent="Enviroment/grass51" instance=ExtResource("2_bye5x")]
+skeleton = NodePath("../../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Enviroment/grass51"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.123157, 0)
+shape = SubResource("BoxShape3D_q6ii4")
+
+[node name="grass52" type="StaticBody3D" parent="Enviroment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -22.7254, 18.6221)
+metadata/_edit_group_ = true
+
+[node name="grass" parent="Enviroment/grass52" instance=ExtResource("2_bye5x")]
+skeleton = NodePath("../../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Enviroment/grass52"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.123157, 0)
+shape = SubResource("BoxShape3D_q6ii4")
+
+[node name="grass53" type="StaticBody3D" parent="Enviroment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -22.7254, 19.6221)
+metadata/_edit_group_ = true
+
+[node name="grass" parent="Enviroment/grass53" instance=ExtResource("2_bye5x")]
+skeleton = NodePath("../../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Enviroment/grass53"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.123157, 0)
+shape = SubResource("BoxShape3D_q6ii4")
+
+[node name="grass54" type="StaticBody3D" parent="Enviroment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -31.1397, 34.8472)
+metadata/_edit_group_ = true
+
+[node name="grass" parent="Enviroment/grass54" instance=ExtResource("2_bye5x")]
+skeleton = NodePath("../../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Enviroment/grass54"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.123157, 0)
+shape = SubResource("BoxShape3D_q6ii4")
+
+[node name="grass55" type="StaticBody3D" parent="Enviroment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -31.1397, 35.8472)
+metadata/_edit_group_ = true
+
+[node name="grass" parent="Enviroment/grass55" instance=ExtResource("2_bye5x")]
+skeleton = NodePath("../../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Enviroment/grass55"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.123157, 0)
+shape = SubResource("BoxShape3D_q6ii4")
+
+[node name="grass56" type="StaticBody3D" parent="Enviroment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -31.1397, 31.8472)
+metadata/_edit_group_ = true
+
+[node name="grass" parent="Enviroment/grass56" instance=ExtResource("2_bye5x")]
+skeleton = NodePath("../../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Enviroment/grass56"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.123157, 0)
+shape = SubResource("BoxShape3D_q6ii4")
+
+[node name="grass57" type="StaticBody3D" parent="Enviroment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -31.1397, 32.8472)
+metadata/_edit_group_ = true
+
+[node name="grass" parent="Enviroment/grass57" instance=ExtResource("2_bye5x")]
+skeleton = NodePath("../../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Enviroment/grass57"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.123157, 0)
+shape = SubResource("BoxShape3D_q6ii4")
+
+[node name="grass58" type="StaticBody3D" parent="Enviroment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -31.1397, 33.8472)
+metadata/_edit_group_ = true
+
+[node name="grass" parent="Enviroment/grass58" instance=ExtResource("2_bye5x")]
+skeleton = NodePath("../../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Enviroment/grass58"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.123157, 0)
+shape = SubResource("BoxShape3D_q6ii4")
+
+[node name="win" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_a00dm")
+volume_db = -11.277
+pitch_scale = 1.29
+
+[node name="Coin" parent="." instance=ExtResource("6_56yq2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.380547, -4.33774)
+
+[node name="Coin2" parent="." instance=ExtResource("6_56yq2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.380547, -7.54254)
+
+[node name="Coin3" parent="." instance=ExtResource("6_56yq2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.380547, -10.0875)
+
+[node name="Coin4" parent="." instance=ExtResource("6_56yq2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.40524, -12.1399)
+
+[node name="Coin5" parent="." instance=ExtResource("6_56yq2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.51293, -13.9465)
+
+[node name="Coin6" parent="." instance=ExtResource("6_56yq2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.37209, -15.9097)
+
+[node name="Coin7" parent="." instance=ExtResource("6_56yq2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.9111, -17.9329)
+
+[node name="Coin8" parent="." instance=ExtResource("6_56yq2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.909421, -21.7049)
+
+[node name="Coin9" parent="." instance=ExtResource("6_56yq2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -5.03765, -18.7645)
+
+[node name="Coin10" parent="." instance=ExtResource("6_56yq2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.45242, -19.6416)
+
+[node name="Coin11" parent="." instance=ExtResource("6_56yq2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -8.9033, -16.9921)
+
+[node name="Coin12" parent="." instance=ExtResource("6_56yq2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -11.6078, -15.3918)
+
+[node name="Coin13" parent="." instance=ExtResource("6_56yq2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -13.617, -15.0567)
+
+[node name="Coin14" parent="." instance=ExtResource("6_56yq2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -12.2145, -9.89307)
+
+[node name="Coin15" parent="." instance=ExtResource("6_56yq2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -14.5168, -7.77415)
+
+[node name="Coin16" parent="." instance=ExtResource("6_56yq2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -16.5168, -4.77415)
+
+[node name="Coin17" parent="." instance=ExtResource("6_56yq2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -16.2804, -0.977985)
+
+[node name="Coin18" parent="." instance=ExtResource("6_56yq2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -15.3934, 2.57974)
+
+[node name="Coin19" parent="." instance=ExtResource("6_56yq2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -18.0556, 5.54963)
+
+[node name="Coin20" parent="." instance=ExtResource("6_56yq2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -19.1578, 9.34877)
+
+[node name="Coin21" parent="." instance=ExtResource("6_56yq2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -18.029, 13.0721)
+
+[node name="Coin22" parent="." instance=ExtResource("6_56yq2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -20.2315, 17.3315)
+
+[node name="Coin23" parent="." instance=ExtResource("6_56yq2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -22.0621, 18.4213)
+
+[node name="Coin24" parent="." instance=ExtResource("6_56yq2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -22.285, 21.1081)
+
+[node name="Coin26" parent="." instance=ExtResource("6_56yq2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -21.8432, 19.309)
+
+[node name="Coin27" parent="." instance=ExtResource("6_56yq2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -22.3464, 20.0064)
+
+[node name="Coin28" parent="." instance=ExtResource("6_56yq2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -21.7075, 20.6136)
+
+[node name="Coin29" parent="." instance=ExtResource("6_56yq2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -21.7075, 20.6136)
+
+[node name="Coin25" parent="." instance=ExtResource("6_56yq2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.14093, 2.2339)
+
+[connection signal="body_entered" from="DeathArea" to="." method="_on_death_area_body_entered"]
+[connection signal="picked" from="Player" to="." method="_on_player_picked"]
+[connection signal="finished" from="win" to="." method="_on_win_finished"]
